@@ -7,6 +7,17 @@ namespace EcommerceAPI.Domain.Entities
         public List<CartProduct> CartProducts { get; private set; }
         public bool IsCheckedOut { get; private set; }
 
+        public Cart()
+        {
+
+        }
+
+        public Cart(Guid id, List<CartProduct> cartProducts)
+        {
+            Id = id;
+            CartProducts = cartProducts;
+        }
+
         public void CheckOut()
         {
             if (IsCheckedOut)
@@ -21,6 +32,8 @@ namespace EcommerceAPI.Domain.Entities
         {
             ValidateCheckout();
             ValidateQuantity(quantity);
+
+            CartProducts ??= new List<CartProduct>();
 
             if (CartProducts.Any(a => a.ProductId == productId))
                 throw new DomainValidationException("The informed product is already in the cart.");
@@ -53,7 +66,7 @@ namespace EcommerceAPI.Domain.Entities
             CartProducts.Remove(itemToRemove);
         }
 
-        private void ValidateCheckout()
+        public void ValidateCheckout()
         {
             if (IsCheckedOut)
                 throw new DomainValidationException("The cart was already checked out.");

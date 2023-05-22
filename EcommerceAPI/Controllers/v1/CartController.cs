@@ -10,14 +10,11 @@ namespace EcommerceAPI.Controllers.v1
     public class CartController : ApiControllerBase
     {
         private readonly ICartService _cartService;
-        private readonly IOrderService _orderService;
         private readonly IEmailService _emailService;
         public CartController(ICartService cartService,
-                            IOrderService orderService,
                             IEmailService emailService)
         {
             _cartService = cartService;
-            _orderService = orderService;
             _emailService = emailService;
         }
 
@@ -44,12 +41,12 @@ namespace EcommerceAPI.Controllers.v1
         [SwaggerOperation(Summary = "Checkout cart")]
         public async Task<ActionResult> Checkout(Guid id, [FromBody] CheckoutDTO checkoutDto)
         {
-            OrderDTO order = await _orderService.PlaceOrderAsync(id, checkoutDto);
+            Guid orderId = await _cartService.CheckoutAsync(id, checkoutDto);
 
             //// Send "thank you for your order" email to the user
             //await _emailService.SendOrderConfirmationEmailAsync(checkoutDto.Email);
 
-            return Ok(id);
+            return Created(string.Empty, new { Id = orderId });
         }
 
         [HttpPost("{id}/Product/{productId}")]

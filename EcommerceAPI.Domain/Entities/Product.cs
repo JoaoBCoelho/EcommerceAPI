@@ -29,7 +29,7 @@ namespace EcommerceAPI.Domain.Entities
             Guid categoryId,
             IEnumerable<Guid>? relatedProducts)
         {
-            ValidateDomain(name, price, imageUrl, popularity, categoryId, relatedProducts);
+            ValidateProduct(name, price, imageUrl, popularity, categoryId, relatedProducts);
 
             Name = name;
             Price = price;
@@ -42,14 +42,20 @@ namespace EcommerceAPI.Domain.Entities
 
         public void AddRelatedProduct(Guid relatedProductId)
         {
+            RelatedProducts ??= new List<ProductProduct>();
+
             if (RelatedProducts.Any(a => a.RelatedProductId == relatedProductId))
                 throw new DomainValidationException("The informed product already exists.");
+
 
             RelatedProducts.Add(new ProductProduct(Id, relatedProductId));
         }
 
         public void RemoveRelatedProduct(Guid relatedProductId)
         {
+            if (RelatedProducts is null)
+                throw new DomainValidationException("The product has no related products.");
+
             var itemToRemove = RelatedProducts.FirstOrDefault(i => i.RelatedProductId == relatedProductId);
 
             if (itemToRemove is null)
@@ -58,7 +64,7 @@ namespace EcommerceAPI.Domain.Entities
             RelatedProducts.Remove(itemToRemove);
         }
 
-        private static void ValidateDomain(string name, decimal price, string imageUrl, int popularity, Guid categoryId, IEnumerable<Guid> relatedProducts)
+        private static void ValidateProduct(string name, decimal price, string imageUrl, int popularity, Guid categoryId, IEnumerable<Guid> relatedProducts)
         {
             if (string.IsNullOrEmpty(name))
                 throw new DomainValidationException("Invalid name.");
@@ -66,7 +72,7 @@ namespace EcommerceAPI.Domain.Entities
             if (price <= 0)
                 throw new DomainValidationException("Invalid price value.");
 
-            if (popularity < 1 && popularity > 5)
+            if (popularity < 1 || popularity > 5)
                 throw new DomainValidationException("Invalid popularity value.");
 
             if (categoryId == Guid.Empty)

@@ -26,7 +26,7 @@ namespace EcommerceAPI.Application.Mappings
                 .ForMember(f => f.RelatedProducts, opt => opt.MapFrom(f => f.RelatedProducts.Select(s => s.RelatedProduct)));
 
             CreateMap<Cart, CartDTO>()
-                .ForMember(f => f.Products, opt => opt.MapFrom(f => f.CartProducts));
+                .ForMember(f => f.Products, opt => opt.MapFrom(f => f.CartProducts)).ReverseMap();
 
             CreateMap<CartProduct, CartProductDTO>()
                 .ForMember(f => f.Quantity, opt => opt.MapFrom(f => f.Quantity))
@@ -41,6 +41,30 @@ namespace EcommerceAPI.Application.Mappings
                 .ForMember(f => f.ImageUrl, opt => opt.MapFrom(f => f.Product.ImageUrl))
                 .ForMember(f => f.Category, opt => opt.MapFrom(f => f.Product.Category))
                 .ForMember(f => f.RelatedProducts, opt => opt.MapFrom(f => f.Product.RelatedProducts));
+
+            CreateMap<CheckoutDTO, NewOrderDTO>();
+
+            CreateMap<AddressDTO, ShippingInformation>()
+                .ConstructUsing(src => new ShippingInformation(
+                    $"{src.FirstName} {src.LastName}",
+                    src.Address,
+                    src.City,
+                    src.State,
+                    src.PostalCode,
+                    src.Country));
+
+            CreateMap<AddressDTO, BillingInformation>()
+                .ConstructUsing(src => new BillingInformation(
+                    $"{src.FirstName} {src.LastName}",
+                    src.Address,
+                    src.City,
+                    src.State,
+                    src.PostalCode,
+                    src.Country));
+
+            CreateMap<BillingInformation, AddressResponseDTO>();
+            CreateMap<ShippingInformation, AddressResponseDTO>();
+            CreateMap<Order, OrderDTO>();
         }
     }
 }

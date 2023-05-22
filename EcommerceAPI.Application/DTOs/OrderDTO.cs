@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EcommerceAPI.Application.DTOs
 {
     public class OrderDTO
     {
-        public Guid OrderId { get; set; }
-        public Guid CartId { get; set; }
-        public string BillingAddress { get; set; }
-        public string ShippingAddress { get; set; }
+        public Guid Id { get; set; }
+        public string CustomerEmail { get; set; }
+        public AddressResponseDTO BillingInformation { get; set; }
+        public AddressResponseDTO ShippingInformation { get; set; }
+        public CartDTO Cart { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

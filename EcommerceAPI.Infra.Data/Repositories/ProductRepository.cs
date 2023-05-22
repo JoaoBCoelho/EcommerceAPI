@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceAPI.Infra.Data.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : BaseRepository, IProductRepository
     {
-        private readonly ApplicationDbContext _context;
-        public ProductRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public ProductRepository(ApplicationDbContext context) : base(context) { }
 
         public async Task<bool> AllExistAsync(IEnumerable<Guid> productIds)
         {
@@ -29,7 +25,7 @@ namespace EcommerceAPI.Infra.Data.Repositories
             return await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.RelatedProducts)
-                .ThenInclude(p=> p.RelatedProduct)
+                .ThenInclude(p => p.RelatedProduct)
                 .FirstOrDefaultAsync(f => f.Id == id);
         }
 

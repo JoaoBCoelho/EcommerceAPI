@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceAPI.Infra.Data.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : BaseRepository, ICategoryRepository
     {
-        private readonly ApplicationDbContext _context;
-        public CategoryRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public CategoryRepository(ApplicationDbContext context) : base(context) { }
 
         public async Task<IEnumerable<Category>> GetAsync()
         {

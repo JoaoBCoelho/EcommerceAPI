@@ -1,8 +1,6 @@
 ﻿using EcommerceAPI.Application.DTOs;
 using EcommerceAPI.Application.Interfaces;
-using EcommerceAPI.Application.Services;
 using EcommerceAPI.Controllers.Shared;
-using EcommerceAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -19,7 +17,7 @@ namespace EcommerceAPI.Controllers.v1
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get product by filter")]
-        public async Task<IActionResult> Get([FromQuery]ProductFilterDTO filter)
+        public async Task<IActionResult> Get([FromQuery] ProductFilterDTO filter)
         {
             var products = await _productService.GetAsync(filter);
 

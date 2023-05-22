@@ -1,7 +1,6 @@
 ﻿using EcommerceAPI.Application.DTOs;
 using EcommerceAPI.Application.Interfaces;
 using EcommerceAPI.Controllers.Shared;
-using EcommerceAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 

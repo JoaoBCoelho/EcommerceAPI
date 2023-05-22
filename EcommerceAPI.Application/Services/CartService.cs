@@ -11,13 +11,16 @@ namespace EcommerceAPI.Application.Services
     {
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         public CartService(ICartRepository cartRepository,
             IProductRepository productRepository,
+            IOrderRepository orderRepository,
             IMapper mapper)
         {
             _cartRepository = cartRepository;
             _productRepository = productRepository;
+            _orderRepository = orderRepository;
             _mapper = mapper;
         }
 
@@ -28,7 +31,6 @@ namespace EcommerceAPI.Application.Services
 
         public async Task<CartDTO> GetAsync(Guid id)
         {
-            var cart = await _cartRepository.GetAsync(id);
             return _mapper.Map<CartDTO>(await _cartRepository.GetAsync(id));
         }
 
@@ -73,5 +75,27 @@ namespace EcommerceAPI.Application.Services
             }
         }
 
+        public async Task<Guid> CheckoutAsync(Guid id, CheckoutDTO checkoutDto)
+        {
+            var cart = await _cartRepository.GetAsync(id);
+            if (cart is null)
+            {
+                throw new NotFoundException("The informed cart was not found.");
+            }
+
+            NewOrderDTO newOrderDTO = _mapper.Map<NewOrderDTO>(checkoutDto);
+            newOrderDTO.Cart = _mapper.Map<CartDTO>(cart);
+
+            var order = new Order(_mapper.Map<BillingInformation>(newOrderDTO.BillingInformation),
+                _mapper.Map<ShippingInformation>(newOrderDTO.ShippingInformation),
+                newOrderDTO.CustomerEmail,
+                cart);
+
+            await _orderRepository.CreateAsync(order);
+            cart.CheckOut();
+            await _cartRepository.UpdateAsync(cart);
+
+            return order.Id;
+        }
     }
 }

@@ -9,10 +9,13 @@ namespace EcommerceAPI.Infra.Data.Context
             : base(options)
         { }
 
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<CartProduct> CartProducts { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<BillingInformation> BillingInformations { get; set; }
+        public DbSet<ShippingInformation> ShippingInformations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

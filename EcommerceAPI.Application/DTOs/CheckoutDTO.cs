@@ -4,14 +4,11 @@ namespace EcommerceAPI.Application.DTOs
 {
     public class CheckoutDTO
     {
-        [Required]
-        public string BillingAddress { get; set; }
-
-        [Required]
-        public string ShippingAddress { get; set; }
-
-        [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string CustomerEmail { get; set; }
+        [Required]
+        public AddressDTO BillingInformation { get; set; }
+        [Required]
+        public AddressDTO ShippingInformation { get; set; }
     }
 }

@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcommerceAPI.Infra.Data.Repositories
 {
-    public class CartRepository : ICartRepository
+    public class CartRepository : BaseRepository, ICartRepository
     {
-        private readonly ApplicationDbContext _context;
-        public CartRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public CartRepository(ApplicationDbContext context) : base(context) { }
 
         public async Task<Guid> CreateAsync()
         {
@@ -28,7 +24,7 @@ namespace EcommerceAPI.Infra.Data.Repositories
             return await _context.Carts
                 .Include(i => i.CartProducts)
                 .ThenInclude(i => i.Product)
-                .ThenInclude(i=> i.Category)
+                .ThenInclude(i => i.Category)
                 .FirstOrDefaultAsync(f => f.Id == id);
         }
 
