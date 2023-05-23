@@ -41,12 +41,11 @@ namespace EcommerceAPI.Controllers.v1
         [SwaggerOperation(Summary = "Checkout cart")]
         public async Task<ActionResult> Checkout(Guid id, [FromBody] CheckoutDTO checkoutDto)
         {
-            Guid orderId = await _cartService.CheckoutAsync(id, checkoutDto);
+            var orderDTO = await _cartService.CheckoutAsync(id, checkoutDto);
 
-            //// Send "thank you for your order" email to the user
-            //await _emailService.SendOrderConfirmationEmailAsync(checkoutDto.Email);
+            _emailService.SendOrderConfirmationEmail(checkoutDto.CustomerEmail, orderDTO);
 
-            return Created(string.Empty, new { Id = orderId });
+            return Ok(orderDTO.Id);
         }
 
         [HttpPost("{id}/Product/{productId}")]

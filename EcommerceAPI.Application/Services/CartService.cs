@@ -75,7 +75,7 @@ namespace EcommerceAPI.Application.Services
             }
         }
 
-        public async Task<Guid> CheckoutAsync(Guid id, CheckoutDTO checkoutDto)
+        public async Task<OrderDTO> CheckoutAsync(Guid id, CheckoutDTO checkoutDto)
         {
             var cart = await _cartRepository.GetAsync(id);
             if (cart is null)
@@ -95,7 +95,7 @@ namespace EcommerceAPI.Application.Services
             cart.CheckOut();
             await _cartRepository.UpdateAsync(cart);
 
-            return order.Id;
+            return _mapper.Map<OrderDTO>(order);
         }
     }
 }
