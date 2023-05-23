@@ -5,8 +5,13 @@ services:
       - "8080:5019"
     environment:
       SqlServerConnectionString: "Server=sqlserver2;Database=ecommerce;User ID=sa;Password=1q2w3e4r@#$$;Trusted_Connection=False; TrustServerCertificate=True;Encrypt=false;"
+      IdentityConnectionString: "Server=sqlserver2;Database=identity;User ID=sa;Password=1q2w3e4r@#$$;Trusted_Connection=False; TrustServerCertificate=True;Encrypt=false;"
       Email: "ecommerceapi2023@outlook.com"
       EmailPassword: "1q2w3e4r@#$$"
+      JwtOptionsIssuer: "https://localhost"
+      JwtOptionsAudience: "Audience"
+      JwtOptionsSecurityKey: "f7a5d38e-3aad-4257-872c-9051aa5da519"
+      JwtOptionsExpiration: 36000
     networks:
       - ecommerceapi-network
 

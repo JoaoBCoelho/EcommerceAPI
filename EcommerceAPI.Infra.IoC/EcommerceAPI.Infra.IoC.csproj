@@ -11,10 +11,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EcommerceAPI.Application\EcommerceAPI.Application.csproj" />
+    <ProjectReference Include="..\EcommerceAPI.Identity\EcommerceAPI.Identity.csproj" />
     <ProjectReference Include="..\EcommerceAPI.Infra.Data\EcommerceAPI.Infra.Data.csproj" />
   </ItemGroup>
 

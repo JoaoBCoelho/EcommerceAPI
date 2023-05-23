@@ -1,15 +1,14 @@
 using EcommerceAPI.Infra.IoC;
 using EcommerceAPI.Middlewares;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//#if DEBUG
-//var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-//#else
-//    var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
-//#endif
-var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
+#if DEBUG
+var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+#else
+    var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
+#endif
+//var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
 
 // Add services to the container.
 
@@ -19,16 +18,14 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "E-Commerce API", Version = "v1" });
-});
 builder.Services.AddVersioning();
 builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.AddAutoMapper();
 builder.Services.RegisterDbContext(configuration);
+builder.Services.RegisterIdentity(configuration);
+builder.Services.AddAuthentication(configuration);
+builder.Services.AddSwagger();
 
 var app = builder.Build();
 
@@ -40,6 +37,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

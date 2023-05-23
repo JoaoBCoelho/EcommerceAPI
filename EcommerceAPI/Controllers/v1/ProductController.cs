@@ -1,12 +1,14 @@
 ﻿using EcommerceAPI.Application.DTOs;
 using EcommerceAPI.Application.Interfaces;
 using EcommerceAPI.Controllers.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace EcommerceAPI.Controllers.v1
 {
     [ApiVersion("1.0")]
+    [Authorize]
     public class ProductController : ApiControllerBase
     {
         private readonly IProductService _productService;
