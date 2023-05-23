@@ -1,0 +1,28 @@
+services:
+  ecommerceapi:
+    build: .
+    ports:
+      - "8080:5019"
+    environment:
+      SqlServerConnectionString: "Server=sqlserver2;Database=ecommerce;User ID=sa;Password=1q2w3e4r@#$$;Trusted_Connection=False; TrustServerCertificate=True;Encrypt=false;"
+      Email: "ecommerceapi2023@outlook.com"
+      EmailPassword: "1q2w3e4r@#$$"
+    networks:
+      - ecommerceapi-network
+
+  sqlserver2:
+    image: mcr.microsoft.com/mssql/server
+    user: root
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "1q2w3e4r@#$$"
+    ports:
+      - "1433:1433"
+    volumes:
+      - ~/docker:/var/opt/mssql/data
+    networks:
+      - ecommerceapi-network
+
+networks:
+  ecommerceapi-network:
+    driver: bridge

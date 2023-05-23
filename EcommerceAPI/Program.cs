@@ -4,11 +4,12 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#if DEBUG
-var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-#else
-    var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
-#endif
+//#if DEBUG
+//var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+//#else
+//    var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
+//#endif
+var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
 
 // Add services to the container.
 
@@ -34,11 +35,8 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

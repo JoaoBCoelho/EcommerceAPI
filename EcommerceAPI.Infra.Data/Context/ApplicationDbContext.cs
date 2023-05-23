@@ -7,7 +7,14 @@ namespace EcommerceAPI.Infra.Data.Context
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        { }
+        {
+            Database.EnsureCreated();
+        }
+
+        public void Migrate()
+        {
+            Database.Migrate();
+        }
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
