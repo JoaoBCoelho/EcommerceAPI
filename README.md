@@ -1,4 +1,4 @@
-# E-commerce Backend API with .NET 6 and C#
+# E-commerce API with .NET 6 and C#
 ## Introduction
 The E-Commerce API provides endpoints for managing a shopping cart, products, categories, and orders. It allows users to perform actions such as adding products to a cart, creating new carts, getting product information, placing orders, and more.
 
