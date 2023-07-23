@@ -12,12 +12,9 @@ namespace EcommerceAPI.Controllers.v1
     public class CartController : ApiControllerBase
     {
         private readonly ICartService _cartService;
-        private readonly IEmailService _emailService;
-        public CartController(ICartService cartService,
-                            IEmailService emailService)
+        public CartController(ICartService cartService)
         {
             _cartService = cartService;
-            _emailService = emailService;
         }
 
         [HttpGet("{id}")]

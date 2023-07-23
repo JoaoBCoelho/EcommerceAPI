@@ -3,14 +3,12 @@
     public class CartControllerTests
     {
         private readonly Mock<ICartService> _cartServiceMock;
-        private readonly Mock<IEmailService> _emailServiceMock;
         private readonly CartController _cartController;
 
         public CartControllerTests()
         {
             _cartServiceMock = new Mock<ICartService>();
-            _emailServiceMock = new Mock<IEmailService>();
-            _cartController = new CartController(_cartServiceMock.Object, _emailServiceMock.Object);
+            _cartController = new CartController(_cartServiceMock.Object);
         }
 
         [Fact]
