@@ -39,17 +39,6 @@ namespace EcommerceAPI.Controllers.v1
             return Created(string.Empty, new { Id = id });
         }
 
-        [HttpPost("{id}/Checkout")]
-        [SwaggerOperation(Summary = "Checkout cart")]
-        public async Task<ActionResult> Checkout(Guid id, [FromBody] CheckoutDTO checkoutDto)
-        {
-            var orderDTO = await _cartService.CheckoutAsync(id, checkoutDto);
-
-            _emailService.SendOrderConfirmationEmail(checkoutDto.CustomerEmail, orderDTO);
-
-            return Ok(orderDTO.Id);
-        }
-
         [HttpPost("{id}/Product/{productId}")]
         [SwaggerOperation(Summary = "Add product to cart")]
         public async Task<ActionResult> AddProductToCart(Guid id, Guid productId, [FromQuery] int quantity)

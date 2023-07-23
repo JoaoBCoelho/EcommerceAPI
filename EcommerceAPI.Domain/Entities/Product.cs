@@ -1,5 +1,4 @@
 ﻿using EcommerceAPI.Domain.Exceptions;
-using System.ComponentModel;
 
 namespace EcommerceAPI.Domain.Entities
 {
